@@ -1,9 +1,9 @@
 from igraph import *
 import time
 from pprint import pprint
+import numpy as np
 import pickle
 from datetime import datetime
-import sys
 
 def main( graphfname):
     '''
@@ -38,8 +38,13 @@ def main( graphfname):
         lsccsumm = {'number of edges':lscc.ecount(),
                      'number of vertices':lscc.vcount()}
 
+        t2 = time.time()
+        lsccdm = np.array(lscc.shortest_paths())
+        t3 = time.time()
+
         print("Largest Strongly Connected Component:", file=printfile)
         print("Generated in "+str(round((t1-t0)/60,3))+"mins", file=printfile)
+        print("Distance matrix generated in "+str(round((t3-t2)/60,3))+"mins", file=printfile)
         print("Summary:", file=printfile)
         pprint(lsccsumm, printfile)
         print("---------------------------------------------" + "\n", file=printfile)
@@ -47,6 +52,7 @@ def main( graphfname):
 
         lsccdict ={'glscc':lscc,
                    'summlscc':lsccsumm,
+                   # 'dmlscc':lsccdm
                    }
 
         # weakly connected component
@@ -57,8 +63,13 @@ def main( graphfname):
         lwccsumm = {'number of edges':lwcc.ecount(),
                      'number of vertices':lwcc.vcount()}
 
+        t2 = time.time()
+        lwccdm = np.array(lwcc.shortest_paths())
+        t3 = time.time()
+
         print("Largest Weakly Connected Component:", file=printfile)
         print("Generated in "+str(round((t1-t0)/60,3))+"mins", file=printfile)
+        print("Distance matrix generated in "+str(round((t3-t2)/60,3)), file=printfile)
         print("Summary:", file=printfile)
         pprint(lwccsumm, printfile)
         print("---------------------------------------------" + "\n",file=printfile)
@@ -67,6 +78,7 @@ def main( graphfname):
 
         lwccdict ={'glwcc':lwcc,
                    'summlwcc':lwccsumm,
+                   # 'dmlwcc':lwccdm
                    }
 
         return lsccdict, lwccdict
@@ -74,11 +86,10 @@ def main( graphfname):
 
     # create output file requirements
     graphname =  graphfname.split("/")[-1].split(".")[0]
-    # dirname = "/".join(graphfname.split("/")[0:-1])+"/"+graphname+datetime.now().strftime('%Y%m%d-%H-%M')
-    dirname = "/".join(graphfname.split("/")[0:-1]) + "/" + graphname + '-Analysis'
-    logfname = dirname+"/"+graphname+'-generation-log-'+'.txt'
-    lsccpfile = dirname+"/"+graphname+'-lscc-graph'+'.pickle'
-    lwccpfile = dirname+"/"+graphname+'-lwcc-graph'+'.pickle'
+    dirname = "/".join(graphfname.split("/")[0:-1])+"/"+graphname+datetime.now().strftime('%Y%m%d-%H-%M')
+    logfname = dirname+"/"+graphname+'-log-'+datetime.now().strftime('%Y%m%d-%H-%M')+'.txt'
+    lsccpfile = dirname+"/"+graphname+'-lscc-'+datetime.now().strftime('%Y%m%d-%H-%M')+'.pickle'
+    lwccpfile = dirname+"/"+graphname+'-lwcc-'+datetime.now().strftime('%Y%m%d-%H-%M')+'.pickle'
 
     if not os.path.exists(dirname):
         os.makedirs(dirname)
@@ -90,7 +101,7 @@ def main( graphfname):
         pickle.dump(lsccout, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     with open(lwccpfile, 'wb') as handle:
-        pickle.dump(lwccout, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        pickle.dump(lsccout, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
 if __name__ == "__main__":
