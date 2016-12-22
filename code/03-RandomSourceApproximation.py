@@ -79,7 +79,7 @@ def main(pickleloc):
         originalnodes = np.array(g.vs['name'])
 
         # pick random pairs
-        samplenodes = getRandomPairs(originalnodes,0.3)
+        samplenodes = getRandomPairs(originalnodes,0.1)
 
         # get sample distance counts
         sampledist = getPairDistance(samplenodes,g,originalnodes)
@@ -101,7 +101,7 @@ def main(pickleloc):
 
     lsccdstatsfname = pickleloc+'/lsccc-srsa-dist-summ.pickle'
     lwccdstatsfname = pickleloc+'/lwccc-srsa-dist-summ.pickle'
-    logfile = pickleloc+'/lwccc-srsa-dist-summ.txt'
+    logfile = pickleloc+'/analysis-srsa-dist-summ.txt'
 
     t0 = time.time()
     lsccdstats = SampleRandomPairApproximationDistanceStats(lscc)

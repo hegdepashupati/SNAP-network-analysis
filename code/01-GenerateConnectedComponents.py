@@ -76,7 +76,7 @@ def main( graphfname):
     graphname =  graphfname.split("/")[-1].split(".")[0]
     # dirname = "/".join(graphfname.split("/")[0:-1])+"/"+graphname+datetime.now().strftime('%Y%m%d-%H-%M')
     dirname = "/".join(graphfname.split("/")[0:-1]) + "/" + graphname + '-Analysis'
-    logfname = dirname+"/"+graphname+'-generation-log-'+'.txt'
+    logfname = dirname+"/"+'analysis-generation-summary'+'.txt'
     lsccpfile = dirname+"/"+graphname+'-lscc-graph'+'.pickle'
     lwccpfile = dirname+"/"+graphname+'-lwcc-graph'+'.pickle'
 
