@@ -15,7 +15,7 @@ def main(pickleloc):
     # compute statistics on those distances
     # save it in a text file
 
-    def SampleRandomPairApproximationDistanceStats(g):
+    def SampleRandomSourceApproximationDistanceStats(g):
 
         def getRandomPairs(onodes, psample):
             snodes = [onodes[i] for i in random.sample(range(onodes.shape[0]),round(onodes.shape[0] * psample))]
@@ -79,7 +79,7 @@ def main(pickleloc):
         originalnodes = np.array(g.vs['name'])
 
         # pick random pairs
-        samplenodes = getRandomPairs(originalnodes,0.1)
+        samplenodes = getRandomPairs(originalnodes,0.01)
 
         # get sample distance counts
         sampledist = getPairDistance(samplenodes,g,originalnodes)
@@ -104,11 +104,11 @@ def main(pickleloc):
     logfile = pickleloc+'/analysis-srsa-dist-summ.txt'
 
     t0 = time.time()
-    lsccdstats = SampleRandomPairApproximationDistanceStats(lscc)
+    lsccdstats = SampleRandomSourceApproximationDistanceStats(lscc)
     t1 = time.time()
 
     t2 = time.time()
-    lwccdstats = SampleRandomPairApproximationDistanceStats(lwcc)
+    lwccdstats = SampleRandomSourceApproximationDistanceStats(lwcc)
     t3 = time.time()
 
     with open(lsccdstatsfname, 'wb') as handle:

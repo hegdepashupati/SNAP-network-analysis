@@ -96,7 +96,7 @@ def main(pickleloc):
         originalnodes = np.array(g.vs['name'])
 
         # pick random pairs
-        samplenodes = getRandomPairs(originalnodes,0.1)
+        samplenodes = getRandomPairs(originalnodes,0.01)
 
         # get sample distance counts
         sampledist = getPairDistance(samplenodes,g)
